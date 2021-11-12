@@ -1,0 +1,6 @@
+CREATE TABLE `blink`.`message_outbox` ( `sno` BIGINT NOT NULL AUTO_INCREMENT ,  `from` VARCHAR(100) NOT NULL ,  `to` VARCHAR(100) NOT NULL ,  `uid` BIGINT NOT NULL ,  `message` LONGTEXT NOT NULL ,    PRIMARY KEY  (`sno`)) ENGINE = InnoDB;
+ALTER TABLE `message_outbox` CHANGE `from` `fromid` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `to` `toid` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `blink`.`message_outbox` ADD UNIQUE `consis_1` (`fromid`, `uid`);
+CREATE TABLE `blink`.`signal_outbox` ( `sno` BIGINT NOT NULL AUTO_INCREMENT ,  `fromid` VARCHAR(100) NOT NULL ,  `toid` VARCHAR(100) NOT NULL ,  `sig` INT NOT NULL ,  `uid` BIGINT NOT NULL ,    PRIMARY KEY  (`sno`)) ENGINE = InnoDB;
+ALTER TABLE `blink`.`signal_outbox` ADD UNIQUE `consis_2` (`fromid`, `uid`, `sig`);
+ALTER TABLE `blink`.`signal_outbox` DROP INDEX `consis_2`, ADD UNIQUE `consis_2` (`toid`, `uid`, `sig`) USING BTREE;
