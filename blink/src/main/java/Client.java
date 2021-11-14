@@ -43,6 +43,11 @@ public class Client {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public static void connect(){
+        
+    }
+    
      public static void main(String[] args){
          creation();
      }
