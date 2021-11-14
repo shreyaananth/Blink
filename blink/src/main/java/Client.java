@@ -2,7 +2,7 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 public class Client {
-    public static void main(String[] args){
+    public static void creation(){
         try {
             try {
                 Class.forName("org.sqlite.JDBC");
@@ -11,10 +11,44 @@ public class Client {
             }
             Connection c = DriverManager.getConnection("jdbc:sqlite:client.db");
             Statement stmt = c.createStatement();
+            String messages = "CREATE TABLE \"messages\" (\n" +
+                              "	\"uid\"	INTEGER,\n" +
+                              "	\"toid\"	TEXT,\n" +
+                              "	\"mes\"	TEXT,\n" +
+                              "	\"mes_date\"	TEXT,\n" +
+                              "	\"status\"	INTEGER,\n" +
+                              "	PRIMARY KEY(\"uid\" AUTOINCREMENT)\n" +
+                              ")";
+            String message_inbox = "CREATE TABLE \"message_inbox\" (\n" +
+                                   "	\"sno\"	INTEGER,\n" +
+                                   "	\"uid\"	INTEGER,\n" +
+                                   "	\"fromid\"	TEXT,\n" +
+                                   "	\"mes\"	TEXT,\n" +
+                                   "	\"mes_date\"	TEXT,\n" +
+                                   "	PRIMARY KEY(\"sno\" AUTOINCREMENT),\n" +
+                                   "	UNIQUE(\"uid\",\"fromid\")\n" +
+                                   ")";
+            String signal_inbox = "CREATE TABLE \"signal_inbox\" (\n" +
+                                   "	\"sno\"	INTEGER,\n" +
+                                   "	\"uid\"	INTEGER,\n" +
+                                   "	\"sig\"	INTEGER,\n" +
+                                   "	PRIMARY KEY(\"sno\" AUTOINCREMENT),\n" +
+                                   "	UNIQUE(\"uid\",\"sig\")\n" +
+                                   ")";
+            String signal_outbox = "CREATE TABLE \"signal_outbox\" (\n" +
+                                   "	\"sno\"	INTEGER,\n" +
+                                   "	\"uid\"	INTEGER,\n" +
+                                   "	\"toid\"	TEXT,\n" +
+                                   "	\"sig\"	INTEGER,\n" +
+                                   "	PRIMARY KEY(\"sno\" AUTOINCREMENT),\n" +
+                                   "	UNIQUE(\"uid\",\"toid\",\"sig\")\n" +
+                                   ")";
             c.close();
         } catch (SQLException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("Opened database successfully");
     }
+     public static void main(String[] args){
+         creation();
+     }
 }
