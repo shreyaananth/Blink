@@ -194,12 +194,16 @@ public class Chat extends javax.swing.JFrame {
         //</editor-fold>
         Client.database();
         /* Create and display the form */
+      
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
                 new Chat().setVisible(true);
             }
         });
+        
+        Client inst = new Client();
+        inst.start();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

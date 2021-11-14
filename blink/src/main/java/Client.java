@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 import java.io.*;  
 import java.net.*; 
 
-public class Client {
+public class Client extends Thread {
     static Connection c;
     public static void database(){
         try {
@@ -20,6 +20,7 @@ public class Client {
     }
     public static void creation(){
         try {
+            database();
             Statement stmt = c.createStatement();
             String messages = "CREATE TABLE \"messages\" (\n" +
                               "	\"uid\"	INTEGER,\n" +
@@ -94,6 +95,28 @@ public class Client {
             s.close();
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void run(){
+        while(true){
+            try {
+                Socket s=new Socket("localhost",6666);
+                ObjectOutputStream dout=new ObjectOutputStream(s.getOutputStream());
+                long uid = 0;
+                signal_out t = new signal_out();
+                t.uid = uid;
+                t.fromid = "test";
+                t.toid = "";
+                t.sig = 1;
+                
+                dout.writeObject(t);
+                dout.flush();
+                dout.close();
+                s.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
