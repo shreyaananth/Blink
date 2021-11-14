@@ -43,6 +43,10 @@ public class Client {
                                    "	PRIMARY KEY(\"sno\" AUTOINCREMENT),\n" +
                                    "	UNIQUE(\"uid\",\"toid\",\"sig\")\n" +
                                    ")";
+            stmt.executeUpdate(messages);
+            stmt.executeUpdate(message_inbox);
+            stmt.executeUpdate(signal_inbox);
+            stmt.executeUpdate(signal_outbox);
             c.close();
         } catch (SQLException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
