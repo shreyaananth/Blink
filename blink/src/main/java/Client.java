@@ -19,15 +19,7 @@ public class Client {
                               "	\"status\"	INTEGER,\n" +
                               "	PRIMARY KEY(\"uid\" AUTOINCREMENT)\n" +
                               ")";
-            String message_inbox = "CREATE TABLE \"message_inbox\" (\n" +
-                                   "	\"sno\"	INTEGER,\n" +
-                                   "	\"uid\"	INTEGER,\n" +
-                                   "	\"fromid\"	TEXT,\n" +
-                                   "	\"mes\"	TEXT,\n" +
-                                   "	\"mes_date\"	TEXT,\n" +
-                                   "	PRIMARY KEY(\"sno\" AUTOINCREMENT),\n" +
-                                   "	UNIQUE(\"uid\",\"fromid\")\n" +
-                                   ")";
+            
             String signal_inbox = "CREATE TABLE \"signal_inbox\" (\n" +
                                    "	\"sno\"	INTEGER,\n" +
                                    "	\"uid\"	INTEGER,\n" +
@@ -44,7 +36,6 @@ public class Client {
                                    "	UNIQUE(\"uid\",\"toid\",\"sig\")\n" +
                                    ")";
             stmt.executeUpdate(messages);
-            stmt.executeUpdate(message_inbox);
             stmt.executeUpdate(signal_inbox);
             stmt.executeUpdate(signal_outbox);
             c.close();
