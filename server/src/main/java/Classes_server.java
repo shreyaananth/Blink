@@ -1,5 +1,5 @@
 import java.io.Serializable;
-class message_in implements Serializable{
+class message implements Serializable{
     long uid;
     String fromid, toid, mes;
 }

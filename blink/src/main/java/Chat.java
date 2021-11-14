@@ -1,4 +1,7 @@
+import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class Chat_instance {
    String Name;
@@ -36,6 +39,11 @@ public class Chat extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(200, 150, 150));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         Chats.setModel(new javax.swing.AbstractListModel<Chat_instance>() {
             public int getSize() { return chats.size(); }
@@ -43,23 +51,12 @@ public class Chat extends javax.swing.JFrame {
         });
         Chats.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         Chats.setToolTipText("");
-        Chats.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentAdded(java.awt.event.ContainerEvent evt) {
-                ChatsComponentAdded(evt);
-            }
-        });
         Chats.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 ChatsValueChanged(evt);
             }
         });
         Chat_List.setViewportView(Chats);
-
-        Message.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MessageActionPerformed(evt);
-            }
-        });
 
         Send.setText("Send");
         Send.addActionListener(new java.awt.event.ActionListener() {
@@ -132,21 +129,19 @@ public class Chat extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void MessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MessageActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MessageActionPerformed
-
     private void New_GroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_New_GroupActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_New_GroupActionPerformed
 
     private void SendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendActionPerformed
-
-       
+            String message = Message.getText();
+            Client.send(message,rec);
     }//GEN-LAST:event_SendActionPerformed
 
     private void ChatsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ChatsValueChanged
-        // TODO add your handling code here:
+        Chat_instance t = new Chat_instance();
+        t = Chats.getSelectedValue();
+        rec = t.toid;
     }//GEN-LAST:event_ChatsValueChanged
 
     private void New_ChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_New_ChatActionPerformed
@@ -158,12 +153,15 @@ public class Chat extends javax.swing.JFrame {
             public int getSize() { return chats.size(); }
             public Chat_instance getElementAt(int i) { return chats.get(i); }
         });
-        System.out.println("Added");
     }//GEN-LAST:event_New_ChatActionPerformed
 
-    private void ChatsComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_ChatsComponentAdded
-
-    }//GEN-LAST:event_ChatsComponentAdded
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        try {
+            Client.c.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -194,7 +192,7 @@ public class Chat extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
+        Client.database();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
