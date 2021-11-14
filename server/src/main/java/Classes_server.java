@@ -1,10 +1,10 @@
 import java.io.Serializable;
-class message implements Serializable{
+class message_in implements Serializable{
     long uid;
     String fromid, toid, mes;
 }
 
-class message_in implements Serializable{
+class message_out implements Serializable{
     long uid;
     String fromid, toid, mes;
     String date;
