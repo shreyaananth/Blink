@@ -2,7 +2,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+//tests
 class Chat_instance {
    String Name;
    String toid;
